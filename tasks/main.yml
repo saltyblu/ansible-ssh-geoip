@@ -1,0 +1,21 @@
+---
+- name: ensure geoiplookup
+  package: 
+    name: geoip 
+    state: installed
+
+- name: Ensure filter script
+  template:
+    src: sshfilter.sh.j2
+    dest: /usr/local/bin/sshfilter.sh
+    owner: root
+    group: root
+    mode: 0750
+
+- name: ensure hosts.allow and deny
+  copy:
+    src: "{{ item  }}"
+    dest: "/etc/{{ item }}"
+  loop: 
+    - hosts.allow
+    - hosts.deny
